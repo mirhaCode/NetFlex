@@ -29,6 +29,8 @@ import { RouterLink, RouterView } from 'vue-router'
 header {
   max-height: 150px;
   display: flex;
+  z-index: 1;
+  background-color: black;
 }
 
 a {
@@ -41,8 +43,5 @@ a {
 
 a:first-child {
   padding-left: 0;
-}
-
-@media (hover: hover) {
 }
 </style>

@@ -1,28 +1,34 @@
-<script lang="ts">
+<script>
 import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
 import { useMoviesStore } from '../../stores/movies'
+import Background from './Background.vue'
+import TrendingMovies from './TrendingMovies.vue'
 
 export default defineComponent({
-  mounted() {
-    const store = useMoviesStore()
-    if (store.movies.length === 0) store.fetchMovies()
-  },
-
-  setup() {
-    const store = useMoviesStore()
-    const { bestTrendingMovie, movies } = storeToRefs(store)
-
-    return {
-      bestTrendingMovie,
-      movies
-    }
-  }
+    mounted() {
+        const store = useMoviesStore()
+        if (store.movies.length === 0)
+            store.fetchMovies()
+    },
+    setup() {
+        const store = useMoviesStore()
+        const { movies, selectedMovie } = storeToRefs(store)
+        return {
+            selectedMovie,
+            movies
+        }
+    },
+    components: { Background, TrendingMovies }
 })
 </script>
 
 <template>
-  <div id="background">
-    <img :src="movies?.[0]?.backdrop_path" :alt="bestTrendingMovie?.title" />
-  </div>
+  <template v-if="movies.length > 0">
+    <Background :movie="selectedMovie" />
+    <TrendingMovies
+      :movies="movies"
+      :selectedMovie="selectedMovie"
+    />
+  </template>
 </template>

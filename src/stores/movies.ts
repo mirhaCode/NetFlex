@@ -9,6 +9,7 @@ interface Movie {
   title: string
   release_date: string
   backdrop_path: string
+  overview: string
 }
 interface ResponseMovies {
   page: number
@@ -18,22 +19,28 @@ interface ResponseMovies {
 export const useMoviesStore = defineStore({
   id: 'movies',
   state: () => ({
-    movies: [] as Movie[]
+    movies: [] as Movie[],
+    selectedMovie: undefined as Movie | undefined,
   }),
-  getters: {
-    bestTrendingMovie: state => state?.movies?.[0]
-  },
   actions: {
     async fetchMovies() {
       fetch(URL_TMDB_MOVIE)
       .then((response: Response) => response.json())
       .then((data: ResponseMovies) => {
+        const movies: Movie[] = data?.results?.map(movie => ({
+          ...movie,
+          backdrop_path: `${BASE_URL_IMAGES}/${movie.backdrop_path}?api_key=${API_KEY}`
+        }))
+
         this.$patch({
-          movies: data?.results?.map(movie => ({
-            ...movie,
-            backdrop_path: `${BASE_URL_IMAGES}/${movie.backdrop_path}?api_key=${API_KEY}`
-          })),
+          movies,
+          selectedMovie: movies?.[0],
         })
+      })
+    },
+    selectMovie(movie: Movie) {
+      this.$patch({
+        selectedMovie: movie
       })
     }
   }

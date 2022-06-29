@@ -27,12 +27,11 @@ export default defineComponent({
   }
 
   #background img {
-    left: 0;
     top: -50px;
     bottom: 0;
     right: 0;
     position: absolute;
-    width: 100%;
+    width: 70%;
     opacity: 0.6;
   }
 

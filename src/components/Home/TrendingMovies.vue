@@ -1,6 +1,7 @@
 <script>
 import { useMoviesStore } from '@/stores/movies'
 import { mapActions } from 'pinia'
+import ListMovies from '@/ui/ListMovies.vue'
 
 export default {
   name: 'TrendindMovies',
@@ -8,21 +9,18 @@ export default {
   methods: {
     ...mapActions(useMoviesStore, ['selectMovie'])
   },
+  components: { ListMovies }
 }
 </script>
 
 <template>
   <div id="trending-movies">
-    <ul>
-      <li
-        v-for="(movie, index) in movies"
-        :key="movie.id"
-        v-bind:class="{ selected: selectedMovie?.id === movie.id }"
-        v-on:click="() => selectMovie(movie)"
-      >
-        <img v-if="index < 4" :src="movie.backdrop_path" :alt="movie.title" />
-      </li>
-    </ul>
+    <ListMovies
+      :movies="movies"
+      maxVisible="4"
+      :onClick="selectMovie"
+      :selectedMovie="selectedMovie"
+    />
   </div>
 </template>
 

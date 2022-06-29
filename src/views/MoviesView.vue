@@ -3,13 +3,13 @@ import Movies from '@/components/Movies/Movies.vue'
 </script>
 
 <template>
-  <main>
+  <main id="movies-view">
     <Movies />
   </main>
 </template>
 
 <style>
-main {
+#movies-view {
   overflow-y: scroll;
 }
 </style>

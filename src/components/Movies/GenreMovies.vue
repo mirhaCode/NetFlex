@@ -1,6 +1,8 @@
 <script>
-  import { fetchMoviesByGenre } from '@/apis/tmdb.api'
   import { defineComponent } from 'vue'
+  import { fetchMoviesByGenre } from '@/apis/tmdb.api'
+  import ListMovies from '@/ui/ListMovies.vue'
+
   export default defineComponent({
     props: ['genre'],
     data() {
@@ -11,17 +13,14 @@
     async created() {
       this.movies = await fetchMoviesByGenre(this.genre.id)
     },
+    components: { ListMovies }
   })
 </script>
 
-<template>
+<template v-if="movies.length > 0">
   <div class="genre-movies">
     <p>{{ genre.name }}</p>
-    <ul>
-      <li v-for="(movie, index) in movies" :key="movie.id" :title="movie.title">
-        <img v-if="index < 4" :src="movie.backdrop_path" :alt="movie.title" />
-      </li>
-    </ul>
+    <ListMovies :movies="movies" maxVisible="4" />
   </div>
 </template>
 
@@ -30,17 +29,7 @@
     margin-bottom: 20px;
   }
 
-  p {
+  .genre-movies p {
     text-transform: uppercase;
-  }
-
-  ul {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    padding: 0;
-  }
-
-  li img {
-    width: 100%;
   }
 </style>

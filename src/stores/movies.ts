@@ -1,20 +1,26 @@
-import { fetchMovies } from '@/apis/tmdb.api'
-import type { Movie } from '@/apis/tmdb.types'
+import { fetchGenres, fetchMoviesByGenre, fetchTrendingMovies } from '@/apis/tmdb.api'
+import type { Genre, Movie } from '@/apis/tmdb.types'
 import { defineStore } from 'pinia'
 
 export const useMoviesStore = defineStore({
   id: 'movies',
   state: () => ({
+    genres: [] as Genre[],
     movies: [] as Movie[],
+    trendingMovies: [] as Movie[],
     selectedMovie: undefined as Movie | undefined,
   }),
   actions: {
-    async fetchMovies() {
-      const movies = await fetchMovies()
+    async fetchGenres() {
+      const genres = await fetchGenres()
+      this.$patch({ genres })
+    },
+    async fetchTrendingMovies() {
+      const trendingMovies = await fetchTrendingMovies()
 
       this.$patch({
-        movies,
-        selectedMovie: movies?.[0],
+        trendingMovies,
+        selectedMovie: trendingMovies?.[0],
       })
     },
     selectMovie(movie: Movie) {

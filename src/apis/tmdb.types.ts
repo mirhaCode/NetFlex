@@ -10,3 +10,12 @@ export interface ResponseMovies {
   page: number
   results: Movie[]
 }
+
+export interface ResponseGenres {
+  genres: Genre[]
+}
+
+export interface Genre {
+  id: string
+  name: string
+}

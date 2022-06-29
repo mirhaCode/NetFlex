@@ -1,22 +1,22 @@
 <script>
 import { storeToRefs } from 'pinia'
 import { defineComponent } from 'vue'
-import { useMoviesStore } from '../../stores/movies'
+import { useMoviesStore } from '@/stores/movies'
 import Background from './Background.vue'
 import TrendingMovies from './TrendingMovies.vue'
 
 export default defineComponent({
     mounted() {
         const store = useMoviesStore()
-        if (store.movies.length === 0)
-            store.fetchMovies()
+        if (store.trendingMovies.length === 0)
+            store.fetchTrendingMovies()
     },
     setup() {
         const store = useMoviesStore()
-        const { movies, selectedMovie } = storeToRefs(store)
+        const { trendingMovies, selectedMovie } = storeToRefs(store)
         return {
             selectedMovie,
-            movies
+            trendingMovies
         }
     },
     components: { Background, TrendingMovies }
@@ -24,10 +24,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <template v-if="movies.length > 0">
+  <template v-if="trendingMovies.length > 0">
     <Background :movie="selectedMovie" />
     <TrendingMovies
-      :movies="movies"
+      :movies="trendingMovies"
       :selectedMovie="selectedMovie"
     />
   </template>
